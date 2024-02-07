@@ -8,7 +8,6 @@ export default function Query() {
   let host = sessionStorage.getItem('host');
   let user = sessionStorage.getItem('user');
   let password = sessionStorage.getItem('password');
-  let table = sessionStorage.getItem('currentTable');
   let database = sessionStorage.getItem('currentDatabase');
   let query = null;
 
@@ -43,8 +42,8 @@ export default function Query() {
         <textarea onChange={captureQuery} className='sql_query_box' placeholder='Type Query here'></textarea>
       </div>
 
-      <div>
-        <button onClick={runQuery}>Go</button>
+      <div className='op_container'>
+        <button className='go_button' onClick={runQuery}>Execute</button>
       </div>
 
       {queryResult && (

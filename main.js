@@ -23,7 +23,7 @@ app.whenReady().then(() => {
 })
 
 const api = express();
-const port = 5000;
+const port = 5000
 
 api.use(cors());
 api.use(bodyParser.json());
@@ -135,7 +135,7 @@ api.post('/database-tables-rows', async (req, res) => {
             database,
         });
 
-        const showTableRowsQuery = `SELECT * FROM ${table}`;
+        const showTableRowsQuery = 'SELECT * FROM'+' '+table;
         const tableRows = await new Promise((resolve, reject) => {
             connection.connect();
             connection.query(showTableRowsQuery, (error, result, fields) => {

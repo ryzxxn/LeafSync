@@ -134,7 +134,7 @@ button{
 
 .dashboard_data{
   padding: 1rem .3rem;
-  border-bottom: 2px solid greenyellow;
+  border-bottom: 2px solid rgb(61, 168, 255);
 }
 
 .dashboard_parent{
@@ -180,7 +180,7 @@ button{
   background-color: rgb(49, 49, 49);
   border: none;
   outline: none;
-  color: rgb(0, 255, 0);
+  color: rgb(0, 153, 255);
   height: 10rem;
   padding: 0px;
   margin: 0px;
@@ -207,6 +207,11 @@ th, td, tr{
   vertical-align: top;
 }
 
+td{
+  height: auto;
+  max-height: 4rem;
+}
+
 th, td{
   border: 1px solid #333333;
 }
@@ -214,4 +219,19 @@ th, td{
 th{
   text-align: center;
   background-color: rgb(15, 15, 15);
+}
+
+.go_button{
+  background-color: rgb(12, 12, 12);
+  color: white;
+  padding: .4rem .8rem;
+  border-radius: .2rem;
+}
+
+.go_button:hover{
+  background-color: rgb(19, 19, 19);
+}
+
+.op_container{
+  padding: .4rem .4rem;
 }
