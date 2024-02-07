@@ -169,6 +169,39 @@ api.post('/database-tables-rows', async (req, res) => {
 });
 
 
+api.post('/database-query', async (req, res) => {
+    try {
+        const { host, user, password, database, query } = req.body;
+        const connection = mysql.createConnection({
+            host,
+            user,
+            password,
+            database
+        });
+
+        const tables = await new Promise((resolve, reject) => {
+            connection.connect();
+            connection.query(query, (error, result, fields) => {
+                if (error) {
+                    console.error(error);
+                    reject('Error retrieving tables from the database');
+                } else {
+                    resolve(result);
+                }
+                connection.end();
+            });
+        });
+
+        // console.log(tables);
+        res.send(tables);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
 // Start the server
 api.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

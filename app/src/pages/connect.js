@@ -54,6 +54,15 @@ export default function Connect() {
         console.error('Error connecting:', error);
         setErrorMessage('Error connecting to the server.');
       });
+
+      axios.post('http://localhost:5000/database-list', ConnectionData)
+      .then(response => {
+        if (response.data) {
+          sessionStorage.setItem('currentDatabase', response.data[0])
+        } else {
+          console.log('failed');
+        }
+      })
   }
 
   return (

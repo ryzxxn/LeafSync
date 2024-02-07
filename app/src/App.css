@@ -170,3 +170,48 @@ button{
 .host{
   padding: 0rem .6rem;
 }
+
+#server_user{
+  background-color: rgb(49, 49, 49);
+  font-family: monospace;
+}
+
+.sql_query_box {
+  background-color: rgb(49, 49, 49);
+  border: none;
+  outline: none;
+  color: rgb(0, 255, 0);
+  height: 10rem;
+  padding: 0px;
+  margin: 0px;
+  font-family: monospace;
+  width: 100%;
+  word-break: normal;
+  text-align: left;
+  vertical-align: top;
+  line-height: -1;
+  resize: none; /* To prevent resizing */
+  font-size: .9rem;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td, tr{
+  font-family: monospace;
+  word-break: break-all;
+  max-width: 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+th, td{
+  border: 1px solid #333333;
+}
+
+th{
+  text-align: center;
+  background-color: rgb(15, 15, 15);
+}

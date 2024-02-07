@@ -5,9 +5,11 @@ export default function Database_table() {
   const [databaseTable, setDatabaseList] = useState([]);
   let curTable = sessionStorage.getItem('currentTable')
 
+  setTimeout(
   useEffect(() => {
     fetchData();
-  }, [curTable, databaseTable]);
+  }, [curTable, databaseTable])
+  ,1000)
 
   async function fetchData() {
     // Fetch database list

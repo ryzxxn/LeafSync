@@ -1,7 +1,27 @@
 import Databaselist from '../component/database_list';
 import Databasetable from '../component/database_table';
+import Query from '../component/query';
+import Tablecontent from '../component/table_content';
+import React, { useState } from 'react';
 
 export default function Dashboard() {
+  const [currentComponent, setCurrentComponent] = useState('Table');
+
+  const renderComponent = () => {
+    switch (currentComponent) {
+      case 'Table':
+        return <Tablecontent />;
+      case 'Sql':
+        return <Query />;
+      default:
+        return <Tablecontent />;
+    }
+  };
+
+  const renderComp = (component) => {
+    setCurrentComponent(component);
+  };
+
   return (
     <>
       <div className='dashboard_parent'>
@@ -13,11 +33,17 @@ export default function Dashboard() {
         <div className='dashboard_view'>
           <div className='dashboard_left'>
             <Databaselist />
-            <Databasetable/>
+            <Databasetable />
+            <div>
+              <div className='module_container'>
+                <p className='database_list_element' onClick={() => renderComp("Table")}>Table view</p>
+                <p className='database_list_element' onClick={() => renderComp("Sql")}>SQL</p>
+              </div>
+            </div>
           </div>
           <div className='dashboard_right'>
             {/* Add your table data or other components here */}
-            <p>Table data</p>
+            {renderComponent()}
           </div>
         </div>
       </div>
