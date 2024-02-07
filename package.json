@@ -1,27 +1,27 @@
 {
   "name": "leafsync",
   "version": "1.0.0",
-  "description": "management system",
-  "main": "main.js",
+  "description": "Management system",
+  "main": "main.js", 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "electron": "npx electronmon .",
     "api": "nodemon server.js",
-    "build": "electron-builder"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "Ryzxxn",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "electron": "^28.2.1",
     "electronmon": "^2.0.2",
     "express": "^4.18.2",
     "mysql": "^2.18.1",
     "nodemon": "^3.0.3"
   },
   "devDependencies": {
-    "electron-builder": "^24.9.1",
-    "electron-packager": "^17.1.2"
+    "electron-builder": "^22.11.5",
+    "electron": "^16.0.5"
   }
 }

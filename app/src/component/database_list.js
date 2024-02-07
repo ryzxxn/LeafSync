@@ -3,11 +3,12 @@ import React, { useState, useEffect } from 'react';
 
 export default function Database_list() {
   const [databaseList, setDatabaseList] = useState([]);
-let curDatabase = sessionStorage.getItem('currentDatabase')
+  let curDatabase = sessionStorage.getItem('currentDatabase');
+  let tables = null
 
   useEffect(() => {
     fetchData();
-  }, [curDatabase, databaseList]);
+  }, [curDatabase, tables]);
 
   async function fetchData() {
     // Fetch database list
@@ -26,8 +27,24 @@ let curDatabase = sessionStorage.getItem('currentDatabase')
     }
   }
 
-  function setCurrent(database) {
+  async function setCurrent(database) {
     sessionStorage.setItem('currentDatabase', database);
+
+    // Fetch tables for the current database
+    try {
+      const response = await axios.post('http://localhost:5000/database-tables', {
+        host: sessionStorage.getItem('host'),
+        user: sessionStorage.getItem('user'),
+        password: sessionStorage.getItem('password'),
+        database: database,
+      });
+
+      tables = response.data;
+      // console.log(tables[0]);
+      sessionStorage.setItem('currentTable', tables[0]);
+    } catch (error) {
+      console.error('', error);
+    }
   }
 
   return (
@@ -36,7 +53,7 @@ let curDatabase = sessionStorage.getItem('currentDatabase')
         {databaseList.length > 0 ? (
           databaseList.map((databaseName, index) => (
             <p
-              onClick={() => setCurrent(databaseName)}  // Wrap in an arrow function
+              onClick={() => setCurrent(databaseName)}
               className='database_list_element'
               key={index}
             >

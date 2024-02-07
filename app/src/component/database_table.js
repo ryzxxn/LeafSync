@@ -1,54 +1,85 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-export default function Database_table() {
+export default function DatabaseTable() {
   const [databaseTable, setDatabaseList] = useState([]);
-  let curTable = sessionStorage.getItem('currentTable')
+  const [key, setKey] = useState(0); // Added key state
+  const isInitialMount = useRef(true); // Ref to track initial mount
 
-  setTimeout(
+  const currentDatabase = sessionStorage.getItem('currentDatabase');
+  const curTable = sessionStorage.getItem('currentTable');
+
   useEffect(() => {
-    fetchData();
-  }, [curTable, databaseTable])
-  ,1000)
-
-  async function fetchData() {
-    // Fetch database list
-    let connectionData = {
-      host: sessionStorage.getItem('host'),
-      user: sessionStorage.getItem('user'),
-      password: sessionStorage.getItem('password'),
-      database: sessionStorage.getItem('currentDatabase'),
+    // Fetch data when either currentDatabase or curTable changes
+    const fetchDataWithUpdatedValues = async () => {
+      try {
+        const response = await axios.post('http://localhost:5000/database-tables', {
+          host: sessionStorage.getItem('host'),
+          user: sessionStorage.getItem('user'),
+          password: sessionStorage.getItem('password'),
+          database: currentDatabase,
+        });
+        setDatabaseList(response.data);
+      } catch (error) {
+        console.error('Error fetching database Tables:', error);
+      }
     };
 
-    try {
-      const response = await axios.post('http://localhost:5000/database-tables', connectionData);
-      setDatabaseList(response.data);
-    } catch (error) {
-      console.error('Error fetching database Tables:', error);
+    if (!isInitialMount.current) {
+      fetchDataWithUpdatedValues();
+    } else {
+      isInitialMount.current = false;
     }
-  }
+  }, [currentDatabase, curTable, key]); // Trigger the effect when either currentDatabase, curTable, or key changes
 
   function setCurrent(table) {
     sessionStorage.setItem('currentTable', table);
   }
 
+  useEffect(() => {
+    // Update key when session storage changes
+    const handleStorageChange = () => {
+      setKey(prevKey => prevKey + 1);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []); // Empty dependency array to run only once on mount
+
+  useEffect(() => {
+    // Automatically trigger a reload after 100ms
+    const reloadTimeout = setTimeout(() => {
+      setKey(prevKey => prevKey + 1);
+    }, 100);
+
+    return () => {
+      clearTimeout(reloadTimeout);
+    };
+  }, [key]); // Trigger the effect when key changes
+
+  // Conditional rendering based on the key
+  if (!sessionStorage.getItem('host')) {
+    return null; // Or any other placeholder when the required session storage values are not available
+  }
+
   return (
-    <>
-      <div className='module_container'>
-        {databaseTable.length > 0 ? (
-          databaseTable.map((databaseName, index) => (
-            <p
-              onClick={() => setCurrent(databaseName)}  // Wrap in an arrow function
-              className='database_list_element'
-              key={index}
-            >
-              {databaseName}
-            </p>
-          ))
-        ) : (
-          <p className='database_list_element'>No tables found.</p>
-        )}
-      </div>
-    </>
+    <div className='module_container'>
+      {databaseTable.length > 0 ? (
+        databaseTable.map((databaseName, index) => (
+          <p
+            onClick={() => setCurrent(databaseName)}
+            className='database_list_element'
+            key={index}
+          >
+            {databaseName}
+          </p>
+        ))
+      ) : (
+        <p className='database_list_element'>No tables found.</p>
+      )}
+    </div>
   );
 }

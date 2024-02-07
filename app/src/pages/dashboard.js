@@ -1,7 +1,7 @@
 import Databaselist from '../component/database_list';
 import Databasetable from '../component/database_table';
 import Query from '../component/query';
-import Tablecontent from '../component/table_content';
+import Table from '../component/table_content';
 import React, { useState } from 'react';
 
 export default function Dashboard() {
@@ -10,11 +10,11 @@ export default function Dashboard() {
   const renderComponent = () => {
     switch (currentComponent) {
       case 'Table':
-        return <Tablecontent />;
+        return <Table />;
       case 'Sql':
         return <Query />;
       default:
-        return <Tablecontent />;
+        return <Table />;
     }
   };
 

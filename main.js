@@ -12,7 +12,7 @@ app.whenReady().then(() => {
             height: 720,
             minWidth: 1280,
             minHeight: 720,
-            icon: './logo.ico',
+            icon: 'logo.ico',
             webPreferences:{
                 nodeIntegration: true
             }
@@ -69,7 +69,7 @@ api.post('/database-list', (req, res) => {
 
     connection.connect();
     let showDatabasesQuery = 'SHOW DATABASES';
-    let ignoredDatabases = ['performance_schema', 'mysql', 'information_schema', 'phpmyadmin'];
+    let ignoredDatabases = ['performance_schema', 'mysql', 'information_schema', 'phpmyadmin', 'test'];
     let RESULT = [];
 
     connection.query(showDatabasesQuery, function (error, result, fields) {

@@ -235,3 +235,20 @@ th{
 .op_container{
   padding: .4rem .4rem;
 }
+
+.pagnition_container{
+  padding: .3rem 0rem;
+  display: flex;
+  gap: .1rem;
+}
+
+.table_title{
+  font-size: 1.5rem;
+  font-style: italic;
+}
+
+.pagnition_button{
+  background-color: rgb(8, 8, 8);
+  color: white;
+  padding: .6rem;
+}
