@@ -7,6 +7,8 @@ export default function Table() {
   const [tableData, setTableData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 15;
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRowsData, setSelectedRowsData] = useState([]);
 
   const host = sessionStorage.getItem('host');
   const user = sessionStorage.getItem('user');
@@ -81,6 +83,25 @@ export default function Table() {
     setCurrentPage(Math.ceil(tableData.length / rowsPerPage));
   };
 
+  const handleCheckboxChange = (rowIndex) => {
+    const updatedSelectedRows = [...selectedRows];
+    if (updatedSelectedRows.includes(rowIndex)) {
+      updatedSelectedRows.splice(updatedSelectedRows.indexOf(rowIndex), 1);
+    } else {
+      updatedSelectedRows.push(rowIndex);
+    }
+    setSelectedRows(updatedSelectedRows);
+
+    // Update the array with selected rows data
+    const updatedSelectedRowsData = updatedSelectedRows.map(index => tableData[index]);
+    setSelectedRowsData(updatedSelectedRowsData);
+  };
+
+  const handleDeleteSelectedRows = () => {
+    // Use selectedRowsData array for your DELETE logic
+    console.log('Rows to delete:', selectedRowsData);
+  };
+
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
@@ -88,27 +109,31 @@ export default function Table() {
     <div className='sql_container'>
       <h4 className='table_title'>{sessionStorage.getItem('currentTable')}</h4>
       
-      <div className='pagnition_container'>
-        <button className='pagnition_button' onClick={handleRefresh}>Refresh</button>
-        <button className='pagnition_button' onClick={handleFirstPage} disabled={currentPage === 1}>
+      <div className='pagination_container'>
+        <button className='pagination_button' onClick={handleRefresh}>Refresh</button>
+        <button className='pagination_button' onClick={handleFirstPage} disabled={currentPage === 1}>
           First
         </button>
-        <button className='pagnition_button' onClick={handlePrevPage} disabled={currentPage === 1}>
+        <button className='pagination_button' onClick={handlePrevPage} disabled={currentPage === 1}>
           Previous
         </button>
-        <button className='pagnition_button' onClick={handleNextPage} disabled={endIndex >= tableData.length}>
+        <button className='pagination_button' onClick={handleNextPage} disabled={endIndex >= tableData.length}>
           Next
         </button>
-        <button className='pagnition_button' onClick={handleLastPage} disabled={currentPage === Math.ceil(tableData.length / rowsPerPage)}>
+        <button className='pagination_button' onClick={handleLastPage} disabled={currentPage === Math.ceil(tableData.length / rowsPerPage)}>
           Last
         </button>
       </div>
 
       {tableData.length > 0 && (
         <div>
+          <button className='delete_button' onClick={handleDeleteSelectedRows} disabled={selectedRows.length === 0}>
+            Delete Selected Rows
+          </button>
           <table>
             <thead>
               <tr>
+                <th>Actions</th>
                 {Object.keys(tableData[0]).map(columnName => (
                   <th key={columnName}>{columnName}</th>
                 ))}
@@ -117,6 +142,13 @@ export default function Table() {
             <tbody>
               {tableData.slice(startIndex, endIndex).map((row, index) => (
                 <tr key={index}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(index)}
+                      onChange={() => handleCheckboxChange(index)}
+                    />
+                  </td>
                   {Object.values(row).map((value, colIndex) => (
                     <td key={colIndex}>{value}</td>
                   ))}
