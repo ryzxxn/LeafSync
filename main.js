@@ -60,6 +60,7 @@ api.post('/connect', (req, res) => {
 
 
 api.post('/database-list', (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
     let { host, user, password } = req.body;
     const connection = mysql.createConnection({
         host,
@@ -92,6 +93,7 @@ api.post('/database-list', (req, res) => {
 
 
 api.post('/database-tables', async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
     try {
         const { host, user, password, database } = req.body;
         const connection = mysql.createConnection({
@@ -126,6 +128,7 @@ api.post('/database-tables', async (req, res) => {
 
 
 api.post('/database-tables-rows', async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
     try {
         const { host, user, password, database, table } = req.body;
         const connection = mysql.createConnection({
@@ -170,6 +173,7 @@ api.post('/database-tables-rows', async (req, res) => {
 
 
 api.post('/database-query', async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
     try {
         const { host, user, password, database, query } = req.body;
         const connection = mysql.createConnection({
