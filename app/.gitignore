@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-/build
 /.pnp
 .pnp.js
 
@@ -10,9 +9,15 @@
 /coverage
 
 # production
-/build
+/app
+/dist
 
 # misc
+logo.ico
+main.js
+nodetest.js
+test.js
+buildcommands.txt
 .DS_Store
 .env.local
 .env.development.local
