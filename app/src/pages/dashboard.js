@@ -2,6 +2,7 @@ import Databaselist from '../component/database_list';
 import Databasetable from '../component/database_table';
 import Query from '../component/query';
 import Table from '../component/table_content';
+import ImportDB from '../component/importDB';
 import React, { useState } from 'react';
 
 export default function Dashboard() {
@@ -13,6 +14,8 @@ export default function Dashboard() {
         return <Table />;
       case 'Sql':
         return <Query />;
+      case 'Import':
+        return <ImportDB />;
       default:
         return <Table />;
     }
@@ -38,6 +41,7 @@ export default function Dashboard() {
               <div className='module_container'>
                 <p className='database_list_element' onClick={() => renderComp("Table")}>Table view</p>
                 <p className='database_list_element' onClick={() => renderComp("Sql")}>SQL</p>
+                <p className='database_list_element' onClick={() => renderComp("Import")}>Import</p>
               </div>
             </div>
           </div>
